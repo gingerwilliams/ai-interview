@@ -1,16 +1,54 @@
+"use client"
+import { useCallback, useContext, useState, useRef } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 import { userPrompt } from "@/utils/ai";
+import { ChatContext } from "@/context/ChatContext";
 
 const Prompt = () => {
+    const { messages, setMessages } = useContext(ChatContext)
+    // const [prompt, setPrompt] = useState("")
+    const [responses, setResponses] = useState([])
+    const promptRef = useRef(null)
+
+    const onChange = useCallback((e) => {
+        promptRef.current = e.target.value;
+        // setPrompt(value)
+    }, [])
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        const aiResponse = await userPrompt(promptRef.current)
+        console.log("onSubmit ai reponse:: ", aiResponse)
+
+        setResponses((prev) => [
+            ...prev,
+            {"uid": uuidv4(), "HumanMessage": promptRef.current, "SystemMessage": aiResponse}
+        ])
+        setMessages({"HumanMessage": promptRef.current, "SystemMessage": aiResponse}); // Update context
+        console.log("context messages:: ", messages)
+        promptRef.current = ""
+
+    }
     return (
         <div>
-            <form action={userPrompt}>
+            <form onSubmit={onSubmit}>
                 <input
-                    name="prompt"
+                    ref={promptRef}
+                    onChange={onChange}
                     placeholder="say hello"
-                    className="border border-black/20 py-2"
+                    className="border border-black/20 py-2 w-lg"
                 />
-                <button className="bg-blue-500 text-white px-5 py-2 ">submit</button>
+                <button type="submit" className="bg-blue-500 text-white px-5 py-2 ">submit</button>
             </form>
+            <div className="border-t-black/20 mt-10">{responses.map(res => (
+                <ul key={res.uid}>
+                    <li key={`${res.uid}-human`}>Me: {res.HumanMessage}</li>
+                    <hr/>
+                    <li key={`${res.uid}-system`}>Chat: {res.SystemMessage}</li>
+                    <hr/>
+                </ul>
+            ))}</div>
         </div>
     );
 }
