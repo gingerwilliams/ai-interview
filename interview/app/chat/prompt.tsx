@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { userPrompt } from "@/utils/ai";
 import { ChatContext } from "@/context/ChatContext";
+import { speech } from "@/utils/tts";
 
 const Prompt = () => {
     const { messages, setMessages } = useContext(ChatContext)
@@ -20,6 +21,7 @@ const Prompt = () => {
         e.preventDefault()
         const aiResponse = await userPrompt(promptRef.current)
         console.log("onSubmit ai reponse:: ", aiResponse)
+        speech(aiResponse)
 
         setResponses((prev) => [
             ...prev,
