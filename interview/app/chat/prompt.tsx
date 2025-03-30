@@ -6,6 +6,9 @@ import { userPrompt } from "@/utils/ai";
 import { ChatContext } from "@/context/ChatContext";
 import { speech } from "@/utils/tts";
 
+import AudioRecorder from "../(components)/AudioRecorder";
+import voiceToText from "@/utils/vtt";
+
 const Prompt = () => {
     const { messages, setMessages } = useContext(ChatContext)
     // const [prompt, setPrompt] = useState("")
@@ -32,6 +35,16 @@ const Prompt = () => {
         promptRef.current = ""
 
     }
+
+    const [transcript, setTranscript] = useState("");
+
+    const handleAudioStop = async (audioBlob) => {
+        const humanPrompt = await voiceToText(audioBlob)
+        setTranscript(humanPrompt)
+        const aiResponse = await userPrompt(humanPrompt)
+        speech(aiResponse)
+    };
+
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -51,6 +64,8 @@ const Prompt = () => {
                     <hr/>
                 </ul>
             ))}</div>
+            <AudioRecorder onStop={handleAudioStop} />
+            {transcript && <p>📝 Transcription: {transcript}</p>}
         </div>
     );
 }
