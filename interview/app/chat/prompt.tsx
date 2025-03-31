@@ -36,8 +36,6 @@ const Prompt = () => {
         setPrompt("")
     }
 
-    const [transcript, setTranscript] = useState("");
-
     const handleAudioStop = async (audioBlob) => {
         const humanPrompt = await voiceToText(audioBlob)
         setResponses((prev) => [
@@ -66,7 +64,7 @@ const Prompt = () => {
                         name="prompt"
                         value={prompt}
                         onChange={onChange}
-                        placeholder="say hello"
+                        placeholder="Say hello"
                         className="border border-black/20 flex-grow px-2 py-2 rounded-xl"
                     />
                     <button type="submit" className="bg-blue-500 text-white px-5 py-2 rounded-xl">submit</button>
@@ -82,8 +80,6 @@ const Prompt = () => {
                         </li>
                 </div>
             ))}</div>
-            
-            {transcript && <p>📝 Transcription: {transcript}</p>}
         </div>
     );
 }
