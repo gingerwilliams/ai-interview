@@ -27,7 +27,7 @@ const transcribe = async () => {
         console.log("transcribed text:: ", transcription.text)
         return transcription.text
     } catch (error) {
-        console.log("HandleRecording Error", error)
+        console.log("HandleRecording Error:: ", error)
     }
 }
 

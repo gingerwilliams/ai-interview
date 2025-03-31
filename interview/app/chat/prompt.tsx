@@ -3,68 +3,86 @@ import { useCallback, useContext, useState, useRef } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 import { userPrompt } from "@/utils/ai";
-import { ChatContext } from "@/context/ChatContext";
+// import { ChatContext } from "@/context/ChatContext";
 import { speech } from "@/utils/tts";
 
 import AudioRecorder from "../(components)/AudioRecorder";
 import voiceToText from "@/utils/vtt";
 
 const Prompt = () => {
-    const { messages, setMessages } = useContext(ChatContext)
-    // const [prompt, setPrompt] = useState("")
+    // const { messages, setMessages } = useContext(ChatContext)
+    const [prompt, setPrompt] = useState("")
     const [responses, setResponses] = useState([])
-    const promptRef = useRef(null)
 
     const onChange = useCallback((e) => {
-        promptRef.current = e.target.value;
-        // setPrompt(value)
+        e.target.name = e.target.value;
+        setPrompt(e.target.value)
     }, [])
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        const aiResponse = await userPrompt(promptRef.current)
+        setResponses((prev) => [
+            ...prev,
+            {"uid": uuidv4(), "HumanMessage": prompt}
+        ])
+        const aiResponse = await userPrompt(prompt)
         console.log("onSubmit ai reponse:: ", aiResponse)
-        speech(aiResponse)
+        // speech(aiResponse)
 
         setResponses((prev) => [
             ...prev,
-            {"uid": uuidv4(), "HumanMessage": promptRef.current, "SystemMessage": aiResponse}
+            {"uid": uuidv4(), "SystemMessage": aiResponse}
         ])
-        setMessages({"HumanMessage": promptRef.current, "SystemMessage": aiResponse}); // Update context
-        console.log("context messages:: ", messages)
-        promptRef.current = ""
-
+        setPrompt("")
     }
 
     const [transcript, setTranscript] = useState("");
 
     const handleAudioStop = async (audioBlob) => {
         const humanPrompt = await voiceToText(audioBlob)
-        setTranscript(humanPrompt)
+        setResponses((prev) => [
+            ...prev,
+            {"uid": uuidv4(), "HumanMessage": humanPrompt}
+        ])
+
         const aiResponse = await userPrompt(humanPrompt)
-        speech(aiResponse)
+        setResponses((prev) => [
+            ...prev,
+            {"uid": uuidv4(), "SystemMessage": aiResponse}
+        ])
+        // speech(aiResponse)
     };
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                <input
-                    ref={promptRef}
-                    onChange={onChange}
-                    placeholder="say hello"
-                    className="border border-black/20 py-2 w-lg"
-                />
-                <button type="submit" className="bg-blue-500 text-white px-5 py-2 ">submit</button>
-            </form>
-            <div className="border-t-black/20 mt-10">{responses.map(res => (
-                <ul key={res.uid}>
-                    <li key={`${res.uid}-human`}>Me: {res.HumanMessage}</li>
-                    <hr/>
-                    <li key={`${res.uid}-system`}>Chat: {res.SystemMessage}</li>
-                    <hr/>
-                </ul>
+            <div className="">
+
+                <form
+                    onSubmit={onSubmit}
+                    className="mt-4 flex gap-2"
+                >
+                    <input
+                        // ref={promptRef}
+                        name="prompt"
+                        value={prompt}
+                        onChange={onChange}
+                        placeholder="say hello"
+                        className="border border-black/20 flex-grow px-2 py-2 rounded-xl"
+                    />
+                    <button type="submit" className="bg-blue-500 text-white px-5 py-2 rounded-xl">submit</button>
+                    <AudioRecorder onStop={handleAudioStop} />
+                </form>
+            </div>
+            <div className="border-t-black/20 mt-10 flex flex-col gap-3">{responses.map(res => (
+                <div 
+                    key={res.key}
+                    className={`flex justify-${res.HumanMessage ? "end": "start"}`}>
+                        <li className={`list-none rounded-2xl p-3 max-w-[70%] ${res.HumanMessage ? "bg-blue-500 text-white": "bg-gray-200 text-gray-800"} `}>
+                            { res.HumanMessage || res.SystemMessage }
+                        </li>
+                </div>
             ))}</div>
-            <AudioRecorder onStop={handleAudioStop} />
+            
             {transcript && <p>📝 Transcription: {transcript}</p>}
         </div>
     );
