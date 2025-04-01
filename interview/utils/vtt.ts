@@ -9,11 +9,9 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const handleRecording = async (audioBlob) => {
     const saveFileLocation = path.resolve("./assets/humanPrompt.mp3");
 
-    const writeStream = fs.createWriteStream(saveFileLocation);
     const audio = await audioBlob
     const buffer = Buffer.from(await audio.arrayBuffer());
-    const readStream = Readable.from(buffer);
-    readStream.pipe(writeStream)
+    await fs.promises.writeFile(saveFileLocation, buffer);
 }
 
 const transcribe = async () => {

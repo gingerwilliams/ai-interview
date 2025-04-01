@@ -48,13 +48,21 @@ const Prompt = () => {
             ...prev,
             {"uid": uuidv4(), "SystemMessage": aiResponse}
         ])
-        // speech(aiResponse)
+        speech(aiResponse)
     };
 
     return (
-        <div>
-            <div className="">
-
+        <div className="flex flex-col h-screen bg-gray-100">
+            <div className="border-t-black/20 mt-10  flex flex-col gap-3 h-full overflow-y-scroll p-6">
+                {responses.map(res => ((
+                    <div key={res.uid} className={`grid justify-items-${res.HumanMessage ? "end": "start"}`}>
+                        <li className={`list-none rounded-2xl p-3 max-w-[70%] ${res.HumanMessage ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-800"} `}>
+                            { res.HumanMessage || res.SystemMessage }
+                        </li>
+                    </div>
+                )))}
+            </div>
+            <div className="p-5">
                 <form
                     onSubmit={onSubmit}
                     className="mt-4 flex gap-2"
@@ -71,15 +79,6 @@ const Prompt = () => {
                     <AudioRecorder onStop={handleAudioStop} />
                 </form>
             </div>
-            <div className="border-t-black/20 mt-10 flex flex-col gap-3">{responses.map(res => (
-                <div 
-                    key={res.key}
-                    className={`flex justify-${res.HumanMessage ? "end": "start"}`}>
-                        <li className={`list-none rounded-2xl p-3 max-w-[70%] ${res.HumanMessage ? "bg-blue-500 text-white": "bg-gray-200 text-gray-800"} `}>
-                            { res.HumanMessage || res.SystemMessage }
-                        </li>
-                </div>
-            ))}</div>
         </div>
     );
 }

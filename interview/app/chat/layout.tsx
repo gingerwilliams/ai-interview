@@ -1,5 +1,8 @@
 export default function ChatPage({children}) {
     return (
-        <div>{children}</div>
+        <>
+        <header></header>
+        {children}
+        </>
     );
 }
