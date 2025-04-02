@@ -68,7 +68,6 @@ const Prompt = () => {
                     className="mt-4 flex gap-2"
                 >
                     <input
-                        // ref={promptRef}
                         name="prompt"
                         value={prompt}
                         onChange={onChange}
