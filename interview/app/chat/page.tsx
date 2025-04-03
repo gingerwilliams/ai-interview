@@ -6,6 +6,7 @@ export default function AiPrompt() {
     return (
         <>
         <ChatProvider>
+            {/* ToDo: add chat history to db */}
             <Prompt />
             <ChatWindow />
         </ChatProvider>

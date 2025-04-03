@@ -1,8 +1,9 @@
 import Image from 'next/image'
+import nav from "@/assets/data/nav.json"
 
 const links = [
     { name: 'Dashboard', href: '/study', icon: "/assets/icons/dashboard.svg"},
-    { name: 'Array', href: '/study/array', icon: "/assets/icons/study.svg"}
+    ...nav
 ]
 
 export default function Study({ children }) {
