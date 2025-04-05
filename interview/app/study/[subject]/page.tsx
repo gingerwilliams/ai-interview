@@ -1,18 +1,21 @@
+import { getSubject } from '@/utils/action';
 import Image from 'next/image'
 
 const Subject = async ({ params }) => {
     const p = await params;
-    
+    const data = await getSubject(p?.subject)
+
+    const createMarkup = () => {
+        return {__html: data};
+    }
+   
     return (
         <>
         <main className="flex flex-col h-screen bg-gray-100 p-5">
-            {/* {p?.subject ?? ""} */} 
-
             {p?.subject ? 
-            
                 <section>
                     <h1 className='text-5xl mb-4 pb-2 font-thin block flex-grow border-b-1 border-black/20'>{ p.subject.charAt(0).toUpperCase() + p.subject.slice(1) }</h1>
-                    <p>Load data from md file</p>
+                    <div dangerouslySetInnerHTML={createMarkup()} />
                 </section>
             : 
                 <section className='flex'>    
@@ -35,6 +38,8 @@ const Subject = async ({ params }) => {
 }
 
 export default Subject;
+
+// https://legacy.reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml
 
 /** Clean AF
     * p?.subject ?? ""

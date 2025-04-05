@@ -1,9 +1,19 @@
 "use server"
 
 import fs from 'fs';
+import html from 'remark-html';
 import { redirect } from 'next/navigation'
+import { remark } from 'remark';
 import { removeSpaces, createNewNav } from './helper';
 
+export const getSubject = async (fileName: string) => {
+    const filePath = `assets/subjects/${fileName}.md`;
+    const fileContents = fileName ? fs.readFileSync(filePath, 'utf8') : ""
+
+    const processedContent = await remark().use(html).process(fileContents);
+    const contentHtml = processedContent.toString();
+    return contentHtml;
+}
 
 export const createSubject = async (formData: FormData) => {
     // collect a title for new subject
