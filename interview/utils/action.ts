@@ -40,3 +40,21 @@ export const createSubject = async (formData: FormData) => {
 
     // ToDo: create question and answer section
 }
+
+export const deleteSubject = async (subject) => {
+    const filePath = `assets/subjects/${subject}.md`;
+
+    // removeMd file
+    fs.unlink(filePath, (error) => {
+        if (error) {
+            console.log("deleteSubject", error)
+        }
+        console.log('File deleted successfully!');
+    })
+
+    // run createNewNav
+    createNewNav()
+
+    // redirect to dashboard
+    redirect("/study")
+}
