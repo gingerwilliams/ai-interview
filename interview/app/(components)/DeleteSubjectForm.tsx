@@ -12,7 +12,7 @@ export default function DeleteSubjectForm({subject}) {
                 type="submit"
                 className='flex items-center bg-blue-600 px-2 py-1 h-8 rounded-lg text-white text-sm cursor-pointer'
             >
-                delete subject
+                delete
             </button>
         </form>
     )

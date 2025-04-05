@@ -25,7 +25,7 @@ export const createSubject = async (formData: FormData) => {
     const filePath = `assets/subjects/${removeSpaces(name)}.md`;
     const fileContent = details as string;
 
-    await fs.writeFile(filePath, fileContent, (err) => {
+    fs.writeFile(filePath, fileContent, (err) => {
         if (err) {
           return console.error('createSubject Error writing file:', err);
         }
@@ -58,3 +58,27 @@ export const deleteSubject = async (subject) => {
     // redirect to dashboard
     redirect("/study")
 }
+
+export const getSubjectData = async (subject) => {
+    const filePath = `assets/subjects/${subject}.md`;
+    const fileContents = subject ? fs.readFileSync(filePath, 'utf8') : ""
+
+    return fileContents
+}
+
+export const editSubject = async (formData) => {
+    const data = await formData
+    const filePath = `assets/subjects/${data.name}.md`;
+    const details = data.details;
+
+    fs.writeFile(filePath, details, (err) => {
+        if (err) {
+          return console.error('editSubject Error writing file:', err);
+        }
+        console.log('editSubject Success: File saved successfully!');
+    });
+    
+    // redirect to dashboard
+    redirect(`/study/${data.name}`)
+}
+

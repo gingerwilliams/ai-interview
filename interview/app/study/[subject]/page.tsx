@@ -15,8 +15,9 @@ const Subject = async ({ params }) => {
         <main className="flex flex-col h-screen bg-gray-100 p-5">
             {p?.subject ? 
                 <section>
-                    <div className='flex'>
-                        <h1 className='text-5xl mb-2 font-thin block flex-grow border-b-1 border-black/20'>{ p.subject.charAt(0).toUpperCase() + p.subject.slice(1) }</h1>
+                    <div className='flex mb-2 border-b-1 border-black/20'>
+                        <h1 className='text-5xl mb-2 font-thin block flex-grow '>{ p.subject.charAt(0).toUpperCase() + p.subject.slice(1) }</h1>
+                        <a href={`/study/edit/${p.subject}`} className='flex items-center bg-blue-600 px-2 py-1 h-8 me-2 rounded-lg text-white text-sm cursor-pointer'>edit</a>
                         <DeleteSubjectForm subject={p.subject} />
                     </div>
                     <div dangerouslySetInnerHTML={createMarkup()} />
