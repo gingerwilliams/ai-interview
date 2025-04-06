@@ -49,11 +49,10 @@ export const deleteSubject = async (subject) => {
         if (error) {
             console.log("deleteSubject", error)
         }
+        // run createNewNav
+        createNewNav()
         console.log('File deleted successfully!');
     })
-
-    // run createNewNav
-    createNewNav()
 
     // redirect to dashboard
     redirect("/study")
