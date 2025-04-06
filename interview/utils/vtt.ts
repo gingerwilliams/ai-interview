@@ -1,36 +1,16 @@
-"use server"
-import fs from "fs";
-import path from "path";
-import { Readable } from 'stream';
-import { OpenAI } from "openai";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const handleRecording = async (audioBlob) => {
-    const saveFileLocation = path.resolve("./assets/humanPrompt.mp3");
-
-    const audio = await audioBlob
-    const buffer = Buffer.from(await audio.arrayBuffer());
-    await fs.promises.writeFile(saveFileLocation, buffer);
-}
-
-const transcribe = async () => {
-    const fileLocation = path.resolve("./assets/humanPrompt.mp3");
-    try {
-        const transcription = await openai.audio.transcriptions.create({
-            file: fs.createReadStream(fileLocation),
-            model: "whisper-1",
-        });
-
-        console.log("transcribed text:: ", transcription.text)
-        return transcription.text
-    } catch (error) {
-        console.log("HandleRecording Error:: ", error)
-    }
+const createURL = (path: string) => {
+    return window.location.origin + path
 }
 
 export default async function voiceToText(audioBlob) {
-    await handleRecording(audioBlob)
-    const humanPrompt = await transcribe()
-    return humanPrompt 
+    const formData = new FormData();
+    formData.append("file", audioBlob, "recording.mp3");
+
+    const response = await fetch(new Request(createURL("/api/voiceToText"), {
+        method: "POST",
+        body: formData
+    }))
+
+    const data = await response.json();
+    return data.text;
 }
