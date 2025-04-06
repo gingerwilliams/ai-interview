@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { userPrompt } from "@/utils/ai";
 // import { ChatContext } from "@/context/ChatContext";
-import { speech } from "@/utils/tts";
+import { callSpeech } from "@/utils/tts";
 
 import AudioRecorder from "../(components)/AudioRecorder";
 import voiceToText from "@/utils/vtt";
@@ -28,6 +28,7 @@ const Prompt = () => {
         const aiResponse = await userPrompt(prompt)
         console.log("onSubmit ai reponse:: ", aiResponse)
         // speech(aiResponse)
+        callSpeech(aiResponse)
 
         setResponses((prev) => [
             ...prev,
@@ -48,7 +49,8 @@ const Prompt = () => {
             ...prev,
             {"uid": uuidv4(), "SystemMessage": aiResponse}
         ])
-        speech(aiResponse)
+        // speech(aiResponse)
+        callSpeech(aiResponse)
     };
 
     return (
