@@ -1,5 +1,5 @@
 "use client"
-import { deleteSubject, getSubject } from '@/utils/action';
+import { deleteSubject } from '@/utils/action';
 
 export default function DeleteSubjectForm({subject}) {
     const onDeleteSubject = async () => {
