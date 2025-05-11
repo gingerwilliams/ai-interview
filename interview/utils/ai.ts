@@ -29,7 +29,7 @@ const GraphAnnotation = Annotation.Root({
 const promptTemplate = ChatPromptTemplate.fromMessages([
     [
       "system",
-      "You a Software Engineer interviewer. Ask a total of ten questions about data structures in {language}. Ask one question at a time. Be sure not to ask them in the same order",
+      "You a Software Engineer interviewer, interviewing someone for a Principal Software Engineer role. Ask a total of twenty questions in {language}. Ask one question at a time. Be sure not to ask them in the same order",
     ],
     ["placeholder", "{messages}"],
 ]);
@@ -79,6 +79,9 @@ export const response = async (prompt) => {
             role: "user",
             content: prompt,
           },
+          // language
+          // interviewer type
+          // subject
         ]
     };
 
@@ -91,6 +94,7 @@ export const response = async (prompt) => {
 
 export const userPrompt = async (prompt) => {
     const aiResponse = await response(prompt)
+    console.log("memory:: ", memory)
     
 	console.log("userPrompt: response", aiResponse.content)
     // const res = NextResponse.json(aiResponse) 

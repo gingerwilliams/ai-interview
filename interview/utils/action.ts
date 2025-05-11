@@ -1,4 +1,5 @@
 "use server"
+import prisma from "@/utils/db"
 
 import fs from 'fs';
 import html from 'remark-html';
@@ -80,4 +81,27 @@ export const editSubject = async (formData) => {
     // redirect to dashboard
     redirect(`/study/${data.name}`)
 }
+
+// Prisma
+export const getAllChats = async () => {
+    return await prisma.chat.findMany()
+}
+
+export const getChat = async (id) => {
+    return await prisma.chat.findUnique({
+        where: {
+            id
+        }
+    })
+}
+
+export const saveChat = async (chat) => {
+    await prisma.chat.create({
+        data: {
+            chat
+        }
+    })
+    console.log("server log:", chat)
+}
+
 

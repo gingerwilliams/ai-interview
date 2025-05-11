@@ -8,6 +8,7 @@ import { callSpeech } from "@/utils/tts";
 
 import AudioRecorder from "../(components)/AudioRecorder";
 import voiceToText from "@/utils/vtt";
+import { saveChat } from "@/utils/action";
 
 const Prompt = () => {
     // const { messages, setMessages } = useContext(ChatContext)
@@ -51,13 +52,34 @@ const Prompt = () => {
             ...prev,
             {"uid": uuidv4(), "SystemMessage": aiResponse}
         ])
+        // if mobile ?
         await callSpeech(aiResponse)
         setLoader(false)
     };
 
+    // save this chat,
+    const onSaveChat = useCallback(async () => {
+        const allresponses = responses.map(response => {
+            return response.HumanMessage || response.SystemMessage
+        })
+        const chat = JSON.stringify(allresponses)
+
+        saveChat(chat)
+    }, [responses, setResponses])
+
     return (
         <div className="flex flex-col h-screen bg-gray-100">
-            <div className="border-t-black/20 mt-10  flex flex-col gap-3 h-full overflow-scroll p-6 scroll-snap-y-container">
+            <button className="flex items-center bg-blue-600 px-2 py-1 h-8 rounded-lg text-white text-sm cursor-pointer w-20" 
+                onClick={onSaveChat}
+            >
+                save
+            </button>
+            <a className="flex items-center bg-blue-600 px-2 py-1 h-8 rounded-lg text-white text-sm cursor-pointer w-20" 
+                href="/archive"
+            >
+                view
+            </a>
+            <div className="border-t-black/20 mt-10 max-w-2xl flex flex-col gap-3 h-full overflow-scroll p-6 scroll-snap-y-container">
                 {responses.map(res => ((
                     <div key={res.uid} className={`grid justify-items-${res.HumanMessage ? "end": "start"}`}>
                         <li className={`list-none rounded-2xl p-3 max-w-[70%] ${res.HumanMessage ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-800"} `}>
@@ -72,7 +94,7 @@ const Prompt = () => {
                     onSubmit={onSubmit}
                     className="mt-4 flex gap-2"
                 >
-                    <input
+                    <textarea
                         name="prompt"
                         value={prompt}
                         disabled={loader}
