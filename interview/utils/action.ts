@@ -104,4 +104,11 @@ export const saveChat = async (chat) => {
     console.log("server log:", chat)
 }
 
-
+export const deleteChat = async (id) => {
+    await prisma.chat.delete({
+        where: {
+            id
+        }
+    })
+    redirect("/archive")
+}
