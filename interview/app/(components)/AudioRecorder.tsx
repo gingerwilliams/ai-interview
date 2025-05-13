@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Mic from "./Mic";
 
-const AudioRecorder = ({ onStop }) => {
+const AudioRecorder = ({ onStop, disabled }) => {
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -39,12 +39,14 @@ const AudioRecorder = ({ onStop }) => {
   };
 
   const onClick = (e) => {
-	e.preventDefault()
-	if (recording) {
-		stopRecording()
-	} else {
-		startRecording()
-	}
+    e.preventDefault()
+    if (disabled) return;
+
+    if (recording) {
+      stopRecording()
+    } else {
+      startRecording()
+    }
   }
 
   return (
