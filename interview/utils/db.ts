@@ -14,9 +14,6 @@ neonConfig.webSocketConstructor = ws;
 //   var prisma: PrismaClient | undefined
 // }
 
-
-
-
 const connectionString = `${process.env.DATABASE_URL}`;
 
 const adapter = new PrismaNeon({ connectionString });
