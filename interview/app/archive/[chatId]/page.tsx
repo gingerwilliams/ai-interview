@@ -1,3 +1,4 @@
+import ChatHeader from "@/app/(components)/ChatHeader";
 import { getChat } from "@/utils/action";
 
 const Chat = async ({ params }) => {
@@ -9,16 +10,23 @@ const Chat = async ({ params }) => {
         const chat = await getChat(id)
         return JSON.parse(chat.chat)
     }
-    const chatList = await onGetChat(p?.chatId)
+    const conversation = await onGetChat(p?.chatId)
     
     return (
-        <ul>
-            { p?.chatId ? 
-                chatList.map((item, key) => <li key={`${p?.chatId}-${key}`}>{item}</li>)
-                :
-                <div>selected chats appear here</div>
-            }
-        </ul>
+        <div>
+            
+            <ul>
+                { p?.chatId ? 
+                    (<>
+                        <ChatHeader id={p.chatId} />
+                        {conversation.map((response, key) => <li key={`${p?.chatId}-${key}`}>{response}</li>)}
+                    </>)
+
+                    :
+                    <div>selected chats appear here</div>
+                }
+            </ul>
+        </div>
     )
 }
 
