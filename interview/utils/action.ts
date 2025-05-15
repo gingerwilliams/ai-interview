@@ -7,7 +7,7 @@ export const getAllChats = async () => {
     return await prisma.chat.findMany()
 }
 
-export const getChat = async (id) => {
+export const getChat = async (id: string) => {
     return await prisma.chat.findUnique({
         where: {
             id
@@ -15,7 +15,7 @@ export const getChat = async (id) => {
     })
 }
 
-export const saveChat = async (chat) => {
+export const saveChat = async (chat: string) => {
     await prisma.chat.create({
         data: {
             chat
@@ -23,7 +23,7 @@ export const saveChat = async (chat) => {
     })
 }
 
-export const deleteChat = async (id) => {
+export const deleteChat = async (id: string) => {
     await prisma.chat.delete({
         where: {
             id
@@ -34,6 +34,14 @@ export const deleteChat = async (id) => {
 
 // Prisma Subject
 export const getAllSubjects = async () => await prisma.subject.findMany();
+
+export const getSubject = async (id: string) => {
+    return await prisma.subject.findUnique({
+        where: {
+            id
+        }
+    })
+}
 
 export const createSubject = async (formData: FormData) => {
     const name = formData.get("name");
