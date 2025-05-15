@@ -1,12 +1,24 @@
 import Image from 'next/image'
-import nav from "@/assets/data/nav.json"
+import { getAllSubjects } from '@/utils/action'
 
-const links = [
-    { name: 'Dashboard', href: '/study', icon: "/assets/icons/dashboard.svg"},
-    ...nav
-]
+const nav = async () => {
+    const getSubjects = await getAllSubjects()
+    const subjects = getSubjects.map(subject => ({
+        name: subject.name,
+        href: `/study/${subject.id}`,
+        icon: "/assets/icons/dashboard.svg",
+    }))
+
+    return [
+        { name: 'Dashboard', href: '/study', icon: "/assets/icons/dashboard.svg"},
+        ...subjects
+    ]
+}
+
+const links = await nav()
 
 export default function Study({ children }) {
+    
     return (
         <div className="flex flex-col h-screen w-screen relative">
             <div className="absolute left-0 top-0 h-full w-[200px] p-5">
