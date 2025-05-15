@@ -1,93 +1,13 @@
 "use server"
 import prisma from "@/utils/db"
-
-import fs from 'fs';
-import html from 'remark-html';
 import { redirect } from 'next/navigation'
-import { remark } from 'remark';
-import { removeSpaces, createNewNav } from './helper';
 
-export const getSubject = async (fileName: string) => {
-    const filePath = `assets/subjects/${fileName}.md`;
-    const fileContents = fileName ? fs.readFileSync(filePath, 'utf8') : ""
-
-    const processedContent = await remark().use(html).process(fileContents);
-    const contentHtml = processedContent.toString();
-    return contentHtml;
-}
-
-export const createSubject = async (formData: FormData) => {
-    // collect a title for new subject
-    // add information for subject
-    const name = formData.get("name");
-    const details = formData.get("details");
-
-    // create a md file in directory
-    const filePath = `assets/subjects/${removeSpaces(name)}.md`;
-    const fileContent = details as string;
-
-    fs.writeFile(filePath, fileContent, (err) => {
-        if (err) {
-          return console.error('createSubject Error writing file:', err);
-        }
-        console.log('createSubject Success: File saved successfully!');
-    });
-
-    // create a link in the dashboard left panel
-    createNewNav()
-
-    // redirect to new subject
-    redirect(`/study/${removeSpaces(name)}`)
-
-    // ToDo: create question and answer section
-}
-
-export const deleteSubject = async (subject) => {
-    const filePath = `assets/subjects/${subject}.md`;
-
-    // removeMd file
-    fs.unlink(filePath, (error) => {
-        if (error) {
-            console.log("deleteSubject", error)
-        }
-        // run createNewNav
-        createNewNav()
-        console.log('File deleted successfully!');
-    })
-
-    // redirect to dashboard
-    redirect("/study")
-}
-
-export const getSubjectData = async (subject) => {
-    const filePath = `assets/subjects/${subject}.md`;
-    const fileContents = subject ? fs.readFileSync(filePath, 'utf8') : ""
-
-    return fileContents
-}
-
-export const editSubject = async (formData) => {
-    const data = await formData
-    const filePath = `assets/subjects/${data.name}.md`;
-    const details = data.details;
-
-    fs.writeFile(filePath, details, (err) => {
-        if (err) {
-          return console.error('editSubject Error writing file:', err);
-        }
-        console.log('editSubject Success: File saved successfully!');
-    });
-    
-    // redirect to dashboard
-    redirect(`/study/${data.name}`)
-}
-
-// Prisma
+// Prisma Chat
 export const getAllChats = async () => {
     return await prisma.chat.findMany()
 }
 
-export const getChat = async (id) => {
+export const getChat = async (id: string) => {
     return await prisma.chat.findUnique({
         where: {
             id
@@ -95,20 +15,42 @@ export const getChat = async (id) => {
     })
 }
 
-export const saveChat = async (chat) => {
+export const saveChat = async (chat: string) => {
     await prisma.chat.create({
         data: {
             chat
         }
     })
-    console.log("server log:", chat)
 }
 
-export const deleteChat = async (id) => {
+export const deleteChat = async (id: string) => {
     await prisma.chat.delete({
         where: {
             id
         }
     })
     redirect("/archive")
+}
+
+// Prisma Subject
+export const getAllSubjects = async () => await prisma.subject.findMany();
+
+export const getSubject = async (id: string) => {
+    return await prisma.subject.findUnique({
+        where: {
+            id
+        }
+    })
+}
+
+export const createSubject = async (formData: FormData) => {
+    const name = formData.get("name");
+    const details = formData.get("details");
+
+    return await prisma.subject.create({
+        data: {
+            name,
+            details
+        }
+    })
 }

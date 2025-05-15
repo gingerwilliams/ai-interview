@@ -7,6 +7,7 @@
 generator client {
     provider = "prisma-client-js"
     previewFeatures = ["driverAdapters"]
+    output   = "app/generated/prisma/client"
 }
 
 datasource db {
@@ -22,4 +23,15 @@ model User {
 model Chat {
 	id String @id @default(uuid())
 	chat String
+}
+
+model Subject {
+    id String @id @default(uuid())
+    name String
+    details String
+}
+
+model Article {
+    id String @id @default(uuid())
+    // ket subject
 }
