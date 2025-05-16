@@ -1,10 +1,10 @@
-import { createSubject } from "@/utils/action";
+// import { createSubject } from "@/utils/action";
 
 const NewSubjectForm = () => {
     return (
         <>
             <form
-                action={createSubject}
+                // action={createSubject}
                 className="mt-4 w-full gap-2"
             >
                 <input
