@@ -1,17 +1,9 @@
 import Image from 'next/image'
-import { getAllSubjects } from '@/utils/action'
 
 const nav = async () => {
-    const getSubjects = await getAllSubjects()
-    const subjects = getSubjects.map(subject => ({
-        name: subject.name,
-        href: `/study/${subject.id}`,
-        icon: "/assets/icons/dashboard.svg",
-    }))
-
     return [
         { name: 'Dashboard', href: '/study', icon: "/assets/icons/dashboard.svg"},
-        ...subjects
+        // ...subjects
     ]
 }
 
