@@ -53,4 +53,5 @@ export const createSubject = async (formData) => {
             details
         }
     })
+    redirect("/study")
 }
