@@ -1,2 +1,4 @@
 # ai-interview
-study prep
+interview study and prep application
+
+https://ai-interview-ashen-zeta.vercel.app/
