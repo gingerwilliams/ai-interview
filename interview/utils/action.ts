@@ -33,7 +33,7 @@ export const deleteChat = async (id: string) => {
 }
 
 // Prisma Subject
-// export const getAllSubjects = async () => await prisma.subject.findMany();
+export const getAllSubjects = async () => await prisma.subject.findMany();
 
 // export const getSubject = async (id: string) => {
 //     return await prisma.subject.findUnique({
