@@ -4,6 +4,7 @@
 export default function DeleteSubjectForm({subject}) {
     const onDeleteSubject = async () => {
         // await deleteSubject(subject)
+        console.log(subject)
     }
 
     return (

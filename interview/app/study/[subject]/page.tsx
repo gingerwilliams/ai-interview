@@ -1,4 +1,4 @@
-import DeleteSubjectForm from '@/app/(components)/DeleteSubjectForm';
+// import DeleteSubjectForm from '@/app/(components)/DeleteSubjectForm';
 import { getSubject } from '@/utils/action';
 import Image from 'next/image'
 import Link from 'next/link';
@@ -20,7 +20,7 @@ const Subject = async ({ params }) => {
                     <div className='flex mb-2 border-b-1 border-black/20'>
                         <h1 className='text-5xl mb-2 font-thin block flex-grow '>{ subjectData.name }</h1>
                         <a href={`/study/edit/${subjectData.id}`} className='flex items-center bg-blue-600 px-2 py-1 h-8 me-2 rounded-lg text-white text-sm cursor-pointer'>edit</a>
-                        <DeleteSubjectForm subject={subjectData.id} />
+                        {/* <DeleteSubjectForm subject={subjectData.id} /> */}
                     </div>
                     {/* <div dangerouslySetInnerHTML={createMarkup()} /> */}
                     <div>{subjectData.details}</div>

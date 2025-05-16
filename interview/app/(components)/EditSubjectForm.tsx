@@ -1,6 +1,6 @@
 "use client"
 
-import { getSubjectData, editSubject } from "@/utils/action";
+// import { getSubjectData, editSubject } from "@/utils/action";
 import { useCallback, useEffect, useState } from "react";
 
 const EditSubjectForm = ({ subject }) => {
@@ -19,18 +19,18 @@ const EditSubjectForm = ({ subject }) => {
 
     const onSubmit = useCallback((e) => {
         e.preventDefault()
-        editSubject(subjectData)
+        // editSubject(subjectData)
     }, [subjectData])
 
     useEffect(() => {
         const fetchData = async () => {
             const name = await subject
-            const details = await getSubjectData(name)
-            console.log("fetchData:: ", name, details)
+            // const details = await getSubjectData(name)
+            // console.log("fetchData:: ", name, details)
             // setting values to undefined or null
             setSubjectData({
                 name: name ,
-                details: details
+                details: "details"
             }) 
         }
         fetchData()
