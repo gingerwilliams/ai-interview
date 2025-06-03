@@ -29,7 +29,7 @@ const GraphAnnotation = Annotation.Root({
 const promptTemplate = ChatPromptTemplate.fromMessages([
     [
       "system",
-      "You a Software Engineer interviewer, interviewing someone for a Principal Software Engineer role. Ask a total of twenty questions in {language}. Ask one question at a time. Be sure not to ask them in the same order",
+      "You a Software Engineer interviewer, interviewing someone for a FrontEnd Software Engineer role. Ask a total of twenty questions in {language} about data structures. Ask one question at a time. Be sure not to ask them in the same order",
     ],
     ["placeholder", "{messages}"],
 ]);

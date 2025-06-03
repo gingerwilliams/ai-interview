@@ -1,4 +1,5 @@
 // import DeleteSubjectForm from '@/app/(components)/DeleteSubjectForm';
+import CodeEditor from '@/app/(components)/Editor';
 import { getSubject } from '@/utils/action';
 import Image from 'next/image'
 import Link from 'next/link';
@@ -24,6 +25,7 @@ const Subject = async ({ params }) => {
                     </div>
                     {/* <div dangerouslySetInnerHTML={createMarkup()} /> */}
                     <div>{subjectData.details}</div>
+                    <CodeEditor />
                     
                 </section>
             : 
