@@ -11,7 +11,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const links = [
     { name: 'Home', href: '/' },
     { name: 'Chat', href: '/chat' },
-    { name: 'Study', href: '/study' },
+    // { name: 'Study', href: '/study' },
   ]
 
   return (

@@ -1,18 +1,18 @@
-import Image from 'next/image'
-import { getAllChats } from "@/utils/action"
+// import { getAllChats } from "@/utils/action"
 
 const nav = async () => {
-    const chatList = await getAllChats()
-    const chatNav = chatList.map(item => ({
-        name: item.id,
-        href: `/archive/${item.id}`,
-        icon: "/assets/icons/dashboard.svg"
-    }))
+    return [""]
+    // const chatList = await getAllChats()
+    // const chatNav = chatList.map(item => ({
+    //     name: item.id,
+    //     href: `/archive/${item.id}`,
+    //     icon: "/assets/icons/dashboard.svg"
+    // }))
 
-    return [
-        { name: 'Dashboard', href: '/archive', icon: "/assets/icons/dashboard.svg"},
-        ...chatNav
-    ]
+    // return [
+    //     { name: 'Dashboard', href: '/archive', icon: "/assets/icons/dashboard.svg"},
+    //     ...chatNav
+    // ]
 }
 
 export default async function Archive({ children }) {
@@ -24,8 +24,8 @@ export default async function Archive({ children }) {
                 <ul>
                     {
                         navList.map(link => (
-                            <li key={link.name}>
-                                <a href={link.href} className='flex items-center pt-2 pb-2'>
+                            <li key={link}>
+                                {/* <a href={link.href} className='flex items-center pt-2 pb-2'>
                                     <Image
                                         src={link.icon}
                                         width={14}
@@ -33,7 +33,7 @@ export default async function Archive({ children }) {
                                         alt="dashboard icon"
                                     />
                                     <span className="ms-3 truncate">{link.name}</span>
-                                </a>
+                                </a> */}
                             </li>
                         ))
                     }

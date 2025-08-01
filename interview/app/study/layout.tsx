@@ -1,18 +1,18 @@
 import Image from 'next/image'
-import { getAllSubjects } from '@/utils/action'
+// import { getAllSubjects } from '@/utils/action'
 
 export default async function Study({ children }) {
     const nav = async () => {
-        const getSubjects = await getAllSubjects()
-        const subjects = getSubjects.map(subject => ({
-            name: subject.name,
-            href: `/study/${subject.id}`,
-            icon: "/assets/icons/dashboard.svg",
-        }))
+        // const getSubjects = await getAllSubjects()
+        // const subjects = getSubjects.map(subject => ({
+        //     name: subject.name,
+        //     href: `/study/${subject.id}`,
+        //     icon: "/assets/icons/dashboard.svg",
+        // }))
     
         return [
             { name: 'Dashboard', href: '/study', icon: "/assets/icons/dashboard.svg"},
-            ...subjects
+            // ...subjects
         ]
     }
 

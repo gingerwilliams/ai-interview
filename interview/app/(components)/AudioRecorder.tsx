@@ -8,8 +8,9 @@ const AudioRecorder = ({ onStop, disabled }) => {
   const streamRef = useRef(null)
 
   const startRecording = async () => {
-	const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-	streamRef.current = stream
+	  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+	  streamRef.current = stream
+
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
     audioChunksRef.current = [];
@@ -33,7 +34,7 @@ const AudioRecorder = ({ onStop, disabled }) => {
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-	  streamRef.current.getTracks().forEach(track => track.stop());
+	    streamRef.current.getTracks().forEach(track => track.stop());
       setRecording(false);
     }
   };
@@ -51,11 +52,11 @@ const AudioRecorder = ({ onStop, disabled }) => {
 
   return (
     <div className="mt-2">
-      	<button 
-			className="w-7"
-			onClick={onClick}>
-			<Mic fill={recording ? "#ff0000" : "#000000" } />
-		</button>
+      <button 
+        className="w-7"
+        onClick={onClick}>
+          <Mic fill={recording ? "#ff0000" : "#000000" } />
+	    </button>
     </div>
   );
 }

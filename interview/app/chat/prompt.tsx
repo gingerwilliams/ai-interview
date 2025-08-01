@@ -8,7 +8,7 @@ import { callSpeech } from "@/utils/tts";
 
 import AudioRecorder from "../(components)/AudioRecorder";
 import voiceToText from "@/utils/vtt";
-import { saveChat } from "@/utils/action";
+// import { saveChat } from "@/utils/action";
 
 const Prompt = () => {
     // const { messages, setMessages } = useContext(ChatContext)
@@ -58,18 +58,18 @@ const Prompt = () => {
     };
 
     // save this chat,
-    const onSaveChat = useCallback(async () => {
-        const allresponses = responses.map(response => {
-            return response.HumanMessage || response.SystemMessage
-        })
-        const chat = JSON.stringify(allresponses)
+    // const onSaveChat = useCallback(async () => {
+    //     const allresponses = responses.map(response => {
+    //         return response.HumanMessage || response.SystemMessage
+    //     })
+    //     const chat = JSON.stringify(allresponses)
 
-        saveChat(chat)
-    }, [responses, setResponses])
+    //     saveChat(chat)
+    // }, [responses, setResponses])
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">
-            <button className="flex items-center bg-blue-600 px-2 py-1 h-8 rounded-lg text-white text-sm cursor-pointer w-20" 
+            {/* <button className="flex items-center bg-blue-600 px-2 py-1 h-8 rounded-lg text-white text-sm cursor-pointer w-20" 
                 onClick={onSaveChat}
             >
                 save
@@ -78,7 +78,7 @@ const Prompt = () => {
                 href="/archive"
             >
                 view
-            </a>
+            </a> */}
             <div className="border-t-black/20 mt-10 max-w-2xl flex flex-col gap-3 h-full overflow-scroll p-6 scroll-snap-y-container">
                 {responses.map(res => ((
                     <div key={res.uid} className={`grid justify-items-${res.HumanMessage ? "end": "start"}`}>
